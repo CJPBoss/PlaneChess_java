@@ -261,13 +261,16 @@ public class PlaneChess extends JLayeredPane{
 		return killCount;
 	}
 
-	private int kill(int pos) {
+	private int kill(int pos, int color, int id) {
 		//kill the plane which on pos
 		int killCount = 0;
 		if (pos < 0) {
 			return 0;
 		}
 		for (int i = 0; i < 4; i++) {
+			if (i == color) {
+				continue;
+			}
 			for (int j = 0; j < 4; j++) {
 				if (planePos[i][j] == pos) {
 					int[] orgPos = getPosition(i, j);
@@ -427,18 +430,18 @@ public class PlaneChess extends JLayeredPane{
 		System.out.println(orgPos[0] + ", " + orgPos[1]);
 		if (planePos[col][id] == superFly[col] - 4) {
 			System.out.println("SPFly1");
-			players[color].kill += kill(superFly[col]);
-			players[color].kill += kill(300 + endRoadPos[(col + 2) % 4]);
-			players[color].kill += kill(superFly[col] + 12);
+			players[color].kill += kill(superFly[col], col, 0);
+			players[color].kill += kill(300 + endRoadPos[(col + 2) % 4], col, 0);
+			players[color].kill += kill(superFly[col] + 12, col, 0);
 			planePos[col][id] += 16;
 			planePos[col][id] %= 52;
 			moveAnima(col, id, orgPos[0], orgPos[1], 500);
 		}
 		else if (planePos[col][id] == superFly[col]) {
 			System.out.println("SPFly2");
-			players[color].kill += kill(superFly[col] + 12);
-			players[color].kill += kill(superFly[col] + 17);
-			players[color].kill += kill(300 + endRoadPos[(col + 2) % 4]);
+			players[color].kill += kill(superFly[col] + 12, col, 0);
+			players[color].kill += kill(superFly[col] + 16, col, 0);
+			players[color].kill += kill(300 + endRoadPos[(col + 2) % 4], col, 0);
 			planePos[col][id] += 16;
 			planePos[col][id] %= 52;
 			moveAnima(col, id, orgPos[0], orgPos[1], 500);
